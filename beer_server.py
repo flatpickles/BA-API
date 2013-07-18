@@ -71,7 +71,11 @@ def search():
   # iterate through items, add as appropriate
   i = 0
   for item in r:
-    if not ('url' in item and 'richSnippet' in item and 'thumbnail' in item['richSnippet']): continue
+    if not ('url' in item and
+      'richSnippet' in item and
+      'thumbnail' in item['richSnippet'] and
+      'product' in item['richSnippet']):
+        continue
     # build a new beer item with relevant infos
     beer = {}
     beer['name'] = item['richSnippet']['product']['name']
