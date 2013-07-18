@@ -23,7 +23,6 @@ search_base = "https://www.googleapis.com/customsearch/v1element?"
 params = {
   'key':'AIzaSyCVAXiUzRYsML1Pv6RwSG1gunmMikTzQqY',
   'hl':'en',
-  'prettyPrint':'true',
   'cx':'005327738776847734170:u5pemqi5fnk'
 } # add 'num' and 'q'
 
