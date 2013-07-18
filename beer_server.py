@@ -16,7 +16,7 @@ import urllib
 from bs4 import BeautifulSoup
 import json
 
-### INITIALIZE ###
+### GLOBAL VARS / INIT ###
 
 app = Flask(__name__)
 search_base = "https://www.googleapis.com/customsearch/v1element?"
@@ -27,7 +27,7 @@ params = {
   'cx':'005327738776847734170:u5pemqi5fnk'
 } # add 'num' and 'q'
 
-### HELPFUL SHIT ###
+### HELPFUL STUFF ###
 
 # allow jsonP
 # mostly via https://gist.github.com/1094140
@@ -43,13 +43,16 @@ def jsonp(f):
       return f(*args, **kwargs)
   return decorated_function
 
+# get a formatted time string
 def get_time_s():
   return strftime("[%m/%d %H:%M]", gmtime())
 
+# get a BeautifulSoup object for the page at url
 def get_soup(url):
   html = urllib2.urlopen(url).read()
   return BeautifulSoup(html)
 
+# get json data from the results of a search for query, limited to at most num items
 def get_search_json(query, num):
   params_new = params
   params_new['num'] = num
@@ -62,15 +65,16 @@ def get_search_json(query, num):
 @jsonp
 def search():
   # results dict
-  res = {}
+  beers = {}
   # get search query & max results
   query = request.values.get('q', '')
   num = request.values.get('num', '5')
   # get results for query
   r = get_search_json(query, num)
   # iterate through items, add as appropriate
-  i = 0
+  result_num = 0
   for item in r:
+    # proceed if it doesn't look like a beer entry
     if not ('url' in item and
       'richSnippet' in item and
       'thumbnail' in item['richSnippet'] and
@@ -92,10 +96,10 @@ def search():
     beer['style'] = BeautifulSoup(data).find_all("b")[0].renderContents()
     beer['abv'] = data.decode("utf8").split("|")[1].split("%")[0].strip() + "%"
     # add it, keep this orderly
-    res[i] = beer
-    i += 1
+    beers[result_num] = beer
+    result_num += 1
   # present our findings
-  return jsonify(res)
+  return jsonify(beers)
 
 ### MAIN ###
 
