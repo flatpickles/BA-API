@@ -1,0 +1,7 @@
+[under construction]
+
+This is an immensely hackey workaround to address Beer Advocate's lack of a mobile app, mobile website, or really any apparent concession to the current decade. If you are associated with BA, please accept my sincerest apologies, and consider not suing me. If you are anyone else, please accept that, due to the hackey workaround-ness of this project, it may stop working at any time.
+
+The server is built on top of Flask and Tornado, and uses a request to BA's invocation of Google's Custom Search Engine to gather relevant beer info. In addition to this, more information is gathered from each beer's specific page on BA, scraped using Beautiful Soup. This is all returned to the invoker of the request in the form of JSON, ordered as would be the actual search results on the BA website.
+
+COMING SOON: a mobile web app to format the above results into something simple and pretty. Prepare yourself.
